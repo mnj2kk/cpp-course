@@ -26,8 +26,7 @@ private:
     struct Data: Parent {
         pointer content;
 
-        Data() = default;
-        Data(pointer content, Parent *parent = nullptr) : Parent(parent), content(content) {}
+        Data(pointer content = nullptr, Parent *parent = nullptr) : Parent(parent), content(content) {}
 
         ~Data() { delete content; }
     };
@@ -477,7 +476,7 @@ public:
         return abstract_insert(data);
     }  // NB: a digression from std::map
     std::pair<iterator, bool> insert(const Key &key, Value &&value) {
-        Data *data = new Data(new std::pair<Key, Value>(key, std::move(value)));
+        Data *data = new Data(new std::pair<Key, Value>(key, std::forward<Value>(value)));
         return abstract_insert(data);
     }  // NB: a digression from std::map
     template <class ForwardIt>
